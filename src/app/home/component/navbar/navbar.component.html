@@ -1,0 +1,25 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>Bizon</span>
+        <span class="example-spacer"></span>
+        <nav>
+            <button mat-icon-button class="menu-button" [matMenuTriggerFor]="menu">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item>Inicio</button>
+                <button mat-menu-item>Acerca de</button>
+                <button mat-menu-item>Contacto</button>
+                <button mat-menu-item [routerLink]="['/login']">Iniciar Sesión</button>
+                <button mat-menu-item [routerLink]="['/register']">Registrarse</button>
+            </mat-menu>
+        </nav>
+        <div class="desktop-menu">
+            <button mat-button>Inicio</button>
+            <button mat-button>Acerca de</button>
+            <button mat-button>Contacto</button>
+            <button mat-button [routerLink]="['/login']">Iniciar Sesión</button>
+            <button mat-button [routerLink]="['/register']">Registrarse</button>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>

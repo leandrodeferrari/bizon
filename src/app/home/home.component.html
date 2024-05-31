@@ -1,0 +1,32 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+    <div class="mt-5">
+        <div class="row no-gutters bg-home text-dark">
+            <div class="col-12 col-md-6 p-6 text-start text-md-left d-flex align-items-center mb-5 mb-md-0">
+                <section>
+                    <span class="d-block display-4 fw-bolder mb-1">Bizon</span>
+                    <div class="display-4 fw-bolder mb-3 color-accent-text">Revoluciona tu manera de pagar</div>
+                    <p class="mt-0 mb-4 text-muted">
+                        <strong>
+                            Disfruta de transacciones rápidas, seguras y sin complicaciones.
+                            Lleva el control de tus finanzas al alcance de tu mano.
+                        </strong>
+                    </p>
+                    <button mat-raised-button color="accent" [routerLink]="['/login']">
+                        <div class="text-white">
+                            Iniciar Sesión
+                        </div>
+                    </button>
+                    <button mat-raised-button color="accent" class="mx-2" [routerLink]="['/register']">
+                        <div class="text-white">
+                            Registrarse
+                        </div>
+                    </button>
+                </section>
+            </div>
+            <div class="col-12 col-md-6 overflow-hidden pe-0">
+                <img src="../../assets/icon/logo.jpg" alt="Image" class="img-fluid ml-md-auto d-block h-100 diagonal-cut">
+            </div>
+        </div>
+    </div>
+</div>

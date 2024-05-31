@@ -1,0 +1,31 @@
+.login-box {
+    border-radius: 8px;
+    background: #f5f5f5;
+}
+
+.bg-login-form {
+    background: #000427;
+}
+
+@media (max-width: 767.98px) {
+    .login-box {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .vh {
+        height: 100vh;
+    }
+}
+
+@media (min-width: 768px) {
+    .login-box {
+        width: 70%;
+    }
+}
+
+@media (min-width: 992px) {
+    .login-box {
+        width: 50%;
+    }
+}
