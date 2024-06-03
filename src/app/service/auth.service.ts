@@ -37,7 +37,6 @@ export class AuthService {
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: result => {
           let accessToken = result.getAccessToken().getJwtToken();
-          localStorage.setItem('is.authenticated', 'Yes');
 
           resolve(true);
         },
@@ -123,16 +122,9 @@ export class AuthService {
     let userPool = new CognitoUserPool(poolData);
     let currentUser = userPool.getCurrentUser();
     currentUser?.signOut();
-    localStorage.removeItem("is.authenticated");
   }
 
   isAuthenticated(): boolean {
-    let isAuthenticated = localStorage.getItem("is.authenticated");
-
-    return isAuthenticated === "Yes" ? true : false;
-  }
-
-  isAuth(): boolean {
     let isAuth: boolean = false;
 
     let poolData = {
