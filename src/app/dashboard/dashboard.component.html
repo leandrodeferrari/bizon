@@ -1,3 +1,5 @@
+<app-navbar-dashboard></app-navbar-dashboard>
+
 <div class="container d-flex flex-column align-items-center justify-content-center vh-100">
     <div class="text-center">
         <mat-icon>construction</mat-icon>
@@ -8,3 +10,12 @@
         </button>
     </div>
 </div>
+
+@if (isAuthenticated()) {
+    <button type="button" (click)="logout()">Cerrar sesion</button>
+}
+@else {
+    <button type="button">No estas autenticado</button>
+}
+
+<app-footer></app-footer>

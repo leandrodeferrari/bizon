@@ -1,0 +1,23 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>Bizon</span>
+        <span class="spacer"></span>
+        <nav>
+            <button mat-icon-button class="d-lg-none d-lg-block" [matMenuTriggerFor]="menu">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-button>Inicio</button>
+                <button mat-button>Acerca de</button>
+                <button mat-button>Contacto</button>
+                <button mat-button (click)="logout()">Cerrar Sesión</button>
+            </mat-menu>
+        </nav>
+        <div class="d-lg-flex d-none">
+            <button mat-button>Inicio</button>
+            <button mat-button>Acerca de</button>
+            <button mat-button>Contacto</button>
+            <button mat-button (click)="logout()">Cerrar Sesión</button>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>

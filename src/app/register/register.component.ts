@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -31,6 +31,7 @@ import { SnackBarService } from '../service/snack-bar.service';
 export class RegisterComponent {
   private authService: AuthService = inject(AuthService);
   private formBuilder: FormBuilder = inject(FormBuilder);
+  private router: Router = inject(Router);
   private snackBarService: SnackBarService = inject(SnackBarService);
   public registerForm: FormGroup;
   public hide: boolean = true;
@@ -96,6 +97,7 @@ export class RegisterComponent {
       this.authService.register(user).then(success => {
         if (success) {
           this.snackBarService.openTop('Registro exitoso. ¡Revise su correo!', {duration: 7000, panelClass: ['snack-bar-success']},'Cerrar');
+          this.router.navigate(['login']);
         } else {
           this.snackBarService.openTop('Hubo un problema al registrarse', {duration: 7000, panelClass: ['snack-bar-error']},'Cerrar');
         }
