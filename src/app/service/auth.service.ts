@@ -147,4 +147,20 @@ export class AuthService {
 
     return isAuth;
   }
+
+  getToken(): string {
+    for (let index = 0; index < localStorage.length; index++) {
+      if(localStorage.key(index)?.endsWith('accessToken') && localStorage.key(index)?.includes(environment.clientId)){
+        
+        let item = localStorage.getItem(localStorage.key(index) || '');
+
+        if(item != null){
+          console.log(item);
+          return item;
+        }
+      }
+    }
+
+    return '';
+  }
 }
