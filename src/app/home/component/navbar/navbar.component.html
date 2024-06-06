@@ -18,8 +18,14 @@
             <button mat-button>Inicio</button>
             <button mat-button>Acerca de</button>
             <button mat-button>Contacto</button>
-            <button mat-button [routerLink]="['/login']">Iniciar Sesión</button>
-            <button mat-button [routerLink]="['/register']">Registrarse</button>
+            @if (!isAuthenticated()) {
+                <button mat-button [routerLink]="['/login']">Iniciar Sesión</button>
+                <button mat-button [routerLink]="['/register']">Registrarse</button>
+            }
+            @else{
+                <button mat-button [routerLink]="['/dashboard']">Dashboard</button>
+                <button mat-button [routerLink]="['/register']">Cerrar Sesión</button>
+            }
         </div>
     </mat-toolbar-row>
 </mat-toolbar>

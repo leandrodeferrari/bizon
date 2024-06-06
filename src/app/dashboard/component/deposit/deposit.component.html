@@ -1,0 +1,41 @@
+<app-navbar-dashboard-action></app-navbar-dashboard-action>
+  
+  <mat-stepper linear #stepper>
+    <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Fill out your name</ng-template>
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="firstCtrl" placeholder="Last name, First name" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Monto</ng-template>
+        <mat-form-field>
+          <mat-label>monto</mat-label>
+          <input matInput formControlName="secondCtrl" placeholder="100 min"
+                 required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Volver</button>
+          <button mat-button matStepperNext>Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Hecho</ng-template>
+      <p>Tipo: {{firstFormGroup.get('firstCtrl')?.value}}</p>
+      <p>Monto: {{secondFormGroup.get('secondCtrl')?.value}}</p>
+      <div>
+        <button mat-button matStepperPrevious>Volver</button>
+        <button mat-button (click)="stepper.reset()">Reiniciar</button>
+      </div>
+    </mat-step>
+  </mat-stepper>  
+
+<app-footer></app-footer>

@@ -9,6 +9,13 @@ import { NavbarDashboardComponent } from "./component/navbar-dashboard/navbar-da
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
+import {
+    MatDialog,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogContent,
+    MatDialogTitle,
+  } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-dashboard',
@@ -37,9 +44,21 @@ export class DashboardComponent {
         { description: 'Recarga móvil', date: new Date(), amount: -20.00 },
     ];
 
-    constructor() { }
-
     toggleBalanceVisibility(): void {
         this.isBalanceVisible = !this.isBalanceVisible;
     }
+
+    constructor(public dialog: MatDialog) {}
+
+    openDialog() {
+      this.dialog.open(DialogElementsExampleDialog);
+    }
 }
+
+@Component({
+    selector: 'dialog-elements-example-dialog',
+    templateUrl: './dashborad-dialog.component.html',
+    standalone: true,
+    imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
+  })
+  export class DialogElementsExampleDialog {}

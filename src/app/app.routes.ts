@@ -6,10 +6,34 @@ import { loginGuard } from './guard/login.guard';
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     {
-        path: 'view-cvu',
+        path: 'transfer',
         loadComponent: () =>
-            import('./view-cvu/view-cvu.component').then(
-                (m) => m.ViewCvuComponent
+            import('./dashboard/component/transfer/transfer.component').then(
+                (m) => m.TransferComponent
+            ),
+        canActivate: [dashboardGuard],
+    },
+    {
+        path: 'withdraw',
+        loadComponent: () =>
+            import('./dashboard/component/withdraw/withdraw.component').then(
+                (m) => m.WithdrawComponent
+            ),
+        canActivate: [dashboardGuard],
+    },
+    {
+        path: 'deposit',
+        loadComponent: () =>
+            import('./dashboard/component/deposit/deposit.component').then(
+                (m) => m.DepositComponent
+            ),
+        canActivate: [dashboardGuard],
+    },
+    {
+        path: 'transactions',
+        loadComponent: () =>
+            import('./dashboard/component/transactions/transactions.component').then(
+                (m) => m.TransactionsComponent
             ),
         canActivate: [dashboardGuard],
     },
