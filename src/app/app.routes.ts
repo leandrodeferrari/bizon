@@ -6,6 +6,14 @@ import { loginGuard } from './guard/login.guard';
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     {
+        path: 'view-cvu',
+        loadComponent: () =>
+            import('./view-cvu/view-cvu.component').then(
+                (m) => m.ViewCvuComponent
+            ),
+        canActivate: [dashboardGuard],
+    },
+    {
         path: 'login',
         loadComponent: () =>
             import('./login/login.component').then(

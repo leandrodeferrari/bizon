@@ -7,14 +7,14 @@
                 <mat-icon>menu</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-                <button mat-button>Inicio</button>
+                <button mat-button [routerLink]="['home']">Inicio</button>
                 <button mat-button>Acerca de</button>
                 <button mat-button>Contacto</button>
                 <button mat-button (click)="logout()">Cerrar Sesión</button>
             </mat-menu>
         </nav>
         <div class="d-lg-flex d-none">
-            <button mat-button>Inicio</button>
+            <button mat-button [routerLink]="['home']">Inicio</button>
             <button mat-button>Acerca de</button>
             <button mat-button>Contacto</button>
             <button mat-button (click)="logout()">Cerrar Sesión</button>
