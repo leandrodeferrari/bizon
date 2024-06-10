@@ -47,9 +47,7 @@
                     <mat-list>
                         @for (transaction of transactions; track $index) {
                         <mat-list-item>
-                            <h3 mat-line>{{ transaction.description }}</h3>
-                            <p mat-line>{{ transaction.date | date }}</p>
-                            <p mat-line>{{ transaction.amount | currency }}</p>
+                            <p mat-line> {{ transaction.description }} Fecha: {{ transaction.date | date }} Monto: {{ transaction.amount | currency }}</p>
                         </mat-list-item>
                         }
                     </mat-list>
@@ -62,7 +60,8 @@
                 <mat-card-header>
                     <mat-card-title>Estadísticas</mat-card-title>
                 </mat-card-header>
-                <mat-card-content>
+                
+                <mat-card-content class="text-center">
                     <canvas id="myChart"></canvas>
                 </mat-card-content>
             </mat-card>

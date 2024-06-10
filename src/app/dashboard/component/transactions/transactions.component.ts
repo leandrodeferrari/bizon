@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+/* import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +12,12 @@ export interface PeriodicElement {
     weight: number;
     symbol: string;
 }
+
+const TRANSACTIONS = [
+    { position: 1, description: 'Compra ML', date: new Date(), amount: -15000.00 },
+    { position: 2, description: 'Pago Servicio', date: new Date(), amount: 1200.00 },
+    { position: 3, description: 'Recarga móvil', date: new Date(), amount: -2000.00 },
+];
 
 const ELEMENT_DATA: PeriodicElement[] = [
     { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
@@ -36,4 +42,38 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class TransactionsComponent {
     displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
     dataSource = ELEMENT_DATA;
+}
+ */
+
+import { Component } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { NavbarDashboardActionComponent } from "../navbar-dashboard-action/navbar-dashboard-action.component";
+import { FooterComponent } from '../../../shared/footer/footer.component';
+import { MatTableModule } from '@angular/material/table';
+
+export interface Transaction {
+    description: string;
+    position: number;
+    date: number;
+    amount: string;
+}
+
+const TRANSACTIONS = [
+    { position: 1, description: 'Compra ML', date: new Date(), amount: -15000.00 },
+    { position: 2, description: 'Pago Servicio', date: new Date(), amount: 1200.00 },
+    { position: 3, description: 'Recarga móvil', date: new Date(), amount: -2000.00 },
+];
+
+@Component({
+    selector: 'app-transactions',
+    standalone: true,
+    templateUrl: './transactions.component.html',
+    styleUrl: './transactions.component.scss',
+    imports: [FooterComponent, MatIconModule, RouterModule, MatButtonModule, NavbarDashboardActionComponent, MatTableModule]
+})
+export class TransactionsComponent {
+    displayedColumns: string[] = ['position', 'description', 'date', 'amount'];
+    dataSource = TRANSACTIONS;
 }

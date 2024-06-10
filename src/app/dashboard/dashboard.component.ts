@@ -35,13 +35,13 @@ import {
     ]
 })
 export class DashboardComponent {
-    public name: string = 'Usuario';
+    public name: string = 'Leandro';
     public balance: number = 1200.00;
     public isBalanceVisible: boolean = true;
     public transactions = [
-        { description: 'Compra en Amazon', date: new Date(), amount: -150.00 },
-        { description: 'Pago de nómina', date: new Date(), amount: 1200.00 },
-        { description: 'Recarga móvil', date: new Date(), amount: -20.00 },
+        { description: 'Compra ML', date: new Date(), amount: -15000.00 },
+        { description: 'Pago Servicio', date: new Date(), amount: 1200.00 },
+        { description: 'Recarga móvil', date: new Date(), amount: -2000.00 },
     ];
 
     toggleBalanceVisibility(): void {
