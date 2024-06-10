@@ -4,7 +4,7 @@ import { dashboardGuard } from './guard/dashboard.guard';
 import { loginGuard } from './guard/login.guard';
 
 export const routes: Routes = [
-    { path: '', component: HomeComponent },
+    { path: 'home', component: HomeComponent },
     {
         path: 'transfer',
         loadComponent: () =>
@@ -61,5 +61,5 @@ export const routes: Routes = [
             ),
         canActivate: [dashboardGuard],
     },
-    { path: '**', redirectTo: '' }
+    { path: '**', redirectTo: 'home', pathMatch: "full" }
 ];

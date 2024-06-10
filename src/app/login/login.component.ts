@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,8 +15,7 @@ import { SnackBarService } from '../service/snack-bar.service';
   selector: 'app-login',
   standalone: true,
   imports: [
-    RouterModule,
-    FormsModule,
+    RouterLink,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -30,18 +29,18 @@ import { SnackBarService } from '../service/snack-bar.service';
 })
 export class LoginComponent {
   private authService: AuthService = inject(AuthService);
-  private formBuilder = inject(FormBuilder);
+  private formBuilder: FormBuilder = inject(FormBuilder);
   private snackBarService: SnackBarService = inject(SnackBarService);
   private router: Router = inject(Router);
   public loginForm: FormGroup;
-  public hide = true;
+  public hide: boolean = true;
 
   constructor() {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]]
     });
-   }
+  }
 
   changeVisibilityPassword(event: MouseEvent) {
     this.hide = !this.hide;
@@ -64,8 +63,8 @@ export class LoginComponent {
     event.preventDefault();
 
     if (this.loginForm.valid) {
-      let email = this.loginForm.value.email as string;
-      let password = this.loginForm.value.password as string;
+      let email: string = this.loginForm.value.email as string;
+      let password: string = this.loginForm.value.password as string;
 
       let credential = {
         email: email,
@@ -74,10 +73,10 @@ export class LoginComponent {
 
       this.authService.login(credential).then(success => {
         if (success) {
-          this.snackBarService.openTop('¡Bienvenido!', {duration: 7000, panelClass: ['snack-bar-accent']}, 'Cerrar');
+          this.snackBarService.openTop('¡Bienvenido!', { duration: 7000, panelClass: ['snack-bar-accent'] }, 'Cerrar');
           this.router.navigate(['dashboard']);
         } else {
-          this.snackBarService.openTop('Inicio de sesión fallida', {duration: 7000, panelClass: ['snack-bar-error']}, 'Cerrar');
+          this.snackBarService.openTop('Inicio de sesión fallida', { duration: 7000, panelClass: ['snack-bar-error'] }, 'Cerrar');
         }
       });
     }

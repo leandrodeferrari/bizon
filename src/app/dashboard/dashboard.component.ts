@@ -1,10 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { NavbarComponent } from "../home/component/navbar/navbar.component";
 import { FooterComponent } from "../shared/footer/footer.component";
-import { AuthService } from '../service/auth.service';
 import { NavbarDashboardComponent } from "./component/navbar-dashboard/navbar-dashboard.component";
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
@@ -15,7 +14,8 @@ import {
     MatDialogClose,
     MatDialogContent,
     MatDialogTitle,
-  } from '@angular/material/dialog';
+} from '@angular/material/dialog';
+import { Transaction } from '../domain/transaction';
 
 @Component({
     selector: 'app-dashboard',
@@ -24,7 +24,7 @@ import {
     styleUrl: './dashboard.component.scss',
     imports: [
         CommonModule,
-        RouterModule,
+        RouterLink,
         MatButtonModule,
         MatIconModule,
         NavbarComponent,
@@ -34,31 +34,41 @@ import {
         MatListModule
     ]
 })
-export class DashboardComponent {
-    public name: string = 'Leandro';
-    public balance: number = 1200.00;
+export class DashboardComponent implements OnInit {
+    public dialog: MatDialog = inject(MatDialog);
     public isBalanceVisible: boolean = true;
-    public transactions = [
-        { description: 'Compra ML', date: new Date(), amount: -15000.00 },
-        { description: 'Pago Servicio', date: new Date(), amount: 1200.00 },
-        { description: 'Recarga móvil', date: new Date(), amount: -2000.00 },
-    ];
+    public name?: string;
+    public balance?: number;
+    public transactions?: Transaction[];
 
     toggleBalanceVisibility(): void {
         this.isBalanceVisible = !this.isBalanceVisible;
     }
 
-    constructor(public dialog: MatDialog) {}
+    constructor() { }
+
+    ngOnInit(): void {
+        this.name = 'Leandro'; // cambiar
+        this.balance = 1200.00; // cambiar
+        this.transactions = [
+            { description: 'Compra ML', date: new Date(), amount: -15000.00 },
+            { description: 'Pago Servicio', date: new Date(), amount: 1200.00 },
+            { description: 'Recarga móvil', date: new Date(), amount: -2000.00 },
+        ]; // cambiar
+    }
 
     openDialog() {
-      this.dialog.open(DialogElementsExampleDialog);
+        this.dialog.open(DashboardDialogCvuComponent);
     }
 }
 
 @Component({
-    selector: 'dialog-elements-example-dialog',
-    templateUrl: './dashborad-dialog.component.html',
+    selector: 'dashboard-dialog-cvu',
+    templateUrl: './dashboard-dialog-cvu.component.html',
     standalone: true,
     imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
-  })
-  export class DialogElementsExampleDialog {}
+})
+export class DashboardDialogCvuComponent {
+    public cvu: string = '3723498720372349872'; // cambiar
+    public alias: string = 'leandro.deferrari.bz'; //cambiar
+}

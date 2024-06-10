@@ -1,20 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { NavbarDashboardActionComponent } from "../navbar-dashboard-action/navbar-dashboard-action.component";
 import { FooterComponent } from '../../../shared/footer/footer.component';
-import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
-
-interface Food {
-    value: string;
-    viewValue: string;
-}
 
 @Component({
     selector: 'app-withdraw',
@@ -36,32 +31,31 @@ interface Food {
     ]
 })
 export class WithdrawComponent {
-    firstFormGroup = this._formBuilder.group({
-        firstCtrl: ['', Validators.required],
-    });
-    secondFormGroup = this._formBuilder.group({
-        secondCtrl: ['', Validators.required],
-    });
-    isEditable = true;
-    types = ['Efectivo', 'Tarjeta'];
-    
-    constructor(private _formBuilder: FormBuilder, public dialog: MatDialog) { }
+    private formBuilder: FormBuilder = inject(FormBuilder);
+    public dialog: MatDialog = inject(MatDialog);
+    public firstStepFormGroup: FormGroup;
+    public secondStepFormGroup: FormGroup;
+    public isEditable = true;
+    public types = ['Efectivo', 'Tarjeta'];
 
-    foods: Food[] = [
-        { value: 'steak-0', viewValue: 'Steak' },
-        { value: 'pizza-1', viewValue: 'Pizza' },
-        { value: 'tacos-2', viewValue: 'Tacos' },
-    ];
+    constructor() {
+        this.firstStepFormGroup = this.formBuilder.group({
+            type: ['', Validators.required],
+        });
+        this.secondStepFormGroup = this.formBuilder.group({
+            amount: [0, Validators.required],
+        });
+    }
 
     openDialog() {
-        this.dialog.open(withdrawDialog);
-      }
+        this.dialog.open(DashboardDialogWithdraw);
+    }
 }
 
 @Component({
-    selector: 'dialog-elements-example-dialog',
-    templateUrl: './withdraw-dialog.component.html',
+    selector: 'dashboard-dialog-withdraw',
+    templateUrl: './dashboard-dialog-withdraw.component.html',
     standalone: true,
     imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
-  })
-  export class withdrawDialog {}
+})
+export class DashboardDialogWithdraw { }

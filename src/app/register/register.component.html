@@ -3,6 +3,7 @@
         <div class="col-10 col-md-8 mt-5 mb-5">
             <form [formGroup]="registerForm" (ngSubmit)="onSubmit($event)" class="p-4 border rounded form-container">
                 <h2 class="mb-4 text-center">Registro</h2>
+
                 <div class="mb-3">
                     <mat-form-field appearance="fill" class="w-100">
                         <mat-label>Nombre</mat-label>
@@ -12,6 +13,7 @@
                         }
                     </mat-form-field>
                 </div>
+
                 <div class="mb-3">
                     <mat-form-field appearance="fill" class="w-100">
                         <mat-label>Apellidos</mat-label>
@@ -21,6 +23,7 @@
                         }
                     </mat-form-field>
                 </div>
+
                 <div class="mb-3">
                     <mat-form-field appearance="fill" class="w-100">
                         <mat-label>Email</mat-label>
@@ -30,6 +33,7 @@
                         }
                     </mat-form-field>
                 </div>
+
                 <div class="mb-3">
                     <mat-form-field appearance="fill" class="w-100">
                         <mat-label>DNI</mat-label>
@@ -39,6 +43,7 @@
                         }
                     </mat-form-field>
                 </div>
+
                 <div class="mb-3">
                     <mat-form-field appearance="fill" class="w-100">
                         <mat-label>Contraseña</mat-label>
@@ -52,6 +57,7 @@
                         }
                     </mat-form-field>
                 </div>
+
                 <div class="mb-3">
                     <mat-form-field appearance="fill" class="w-100">
                         <mat-label>CUIL</mat-label>
@@ -61,12 +67,14 @@
                         }
                     </mat-form-field>
                 </div>
+
                 <mat-divider class="mb-2"></mat-divider>
                 <div class="form-group mb-2 d-flex justify-content-center">
-                    <button mat-icon-button color="primary" [routerLink]="['/']">
+                    <button mat-icon-button color="primary" [routerLink]="['/home']">
                         <mat-icon>home</mat-icon>
                     </button>
                 </div>
+                
                 <div class="text-center">
                     @if (registerForm.invalid) {
                     <button mat-raised-button color="primary" type="submit" disabled>Registrarse</button>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { NavbarDashboardActionComponent } from "../navbar-dashboard-action/navbar-dashboard-action.component";
 import { FooterComponent } from '../../../shared/footer/footer.component';
@@ -10,7 +10,13 @@ import { FooterComponent } from '../../../shared/footer/footer.component';
     standalone: true,
     templateUrl: './transfer.component.html',
     styleUrl: './transfer.component.scss',
-    imports: [FooterComponent, MatIconModule, RouterModule, MatButtonModule, NavbarDashboardActionComponent]
+    imports: [
+        FooterComponent, 
+        MatIconModule, 
+        RouterLink, 
+        MatButtonModule, 
+        NavbarDashboardActionComponent
+    ]
 })
 export class TransferComponent {
 

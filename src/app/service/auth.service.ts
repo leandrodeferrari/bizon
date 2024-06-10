@@ -37,7 +37,7 @@ export class AuthService {
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: result => {
           let accessToken = result.getAccessToken().getJwtToken();
-
+          // Api rest
           resolve(true);
         },
         onFailure: err => {
@@ -106,6 +106,7 @@ export class AuthService {
             resolve(false);
           }
           let cognitoUser = result?.user;
+          // Api rest
 
           resolve(true);
         }
@@ -136,11 +137,12 @@ export class AuthService {
 
     let currentUser = userPool.getCurrentUser();
 
-    if(currentUser != null){
-      currentUser.getSession((err: any, session: CognitoUserSession) => {
-        if(err){
-          console.error(JSON.stringify(err));
+    if (currentUser != null) {
+      currentUser.getSession((error: any, session: CognitoUserSession) => {
+        if (error) {
+          console.error(JSON.stringify(error));
         }
+
         isAuth = session.isValid();
       });
     }
@@ -150,12 +152,12 @@ export class AuthService {
 
   getToken(): string {
     for (let index = 0; index < localStorage.length; index++) {
-      if(localStorage.key(index)?.endsWith('accessToken') && localStorage.key(index)?.includes(environment.clientId)){
-        
+      if (localStorage.key(index)?.endsWith('accessToken') && localStorage.key(index)?.includes(environment.clientId)) {
+
         let item = localStorage.getItem(localStorage.key(index) || '');
 
-        if(item != null){
-          console.log(item);
+        if (item != null) {
+
           return item;
         }
       }

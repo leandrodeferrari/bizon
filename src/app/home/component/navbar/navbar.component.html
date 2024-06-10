@@ -10,8 +10,14 @@
                 <button mat-menu-item>Inicio</button>
                 <button mat-menu-item>Acerca de</button>
                 <button mat-menu-item>Contacto</button>
+                @if (!isAuthenticated()) {
                 <button mat-menu-item [routerLink]="['/login']">Iniciar Sesión</button>
                 <button mat-menu-item [routerLink]="['/register']">Registrarse</button>
+                }
+                @else {
+                <button mat-menu-item [routerLink]="['/dashboard']">Dashboard</button>
+                <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
+                }
             </mat-menu>
         </nav>
         <div class="desktop-menu">
@@ -19,12 +25,12 @@
             <button mat-button>Acerca de</button>
             <button mat-button>Contacto</button>
             @if (!isAuthenticated()) {
-                <button mat-button [routerLink]="['/login']">Iniciar Sesión</button>
-                <button mat-button [routerLink]="['/register']">Registrarse</button>
+            <button mat-button [routerLink]="['/login']">Iniciar Sesión</button>
+            <button mat-button [routerLink]="['/register']">Registrarse</button>
             }
             @else{
-                <button mat-button [routerLink]="['/dashboard']">Dashboard</button>
-                <button mat-button [routerLink]="['/register']">Cerrar Sesión</button>
+            <button mat-button [routerLink]="['/dashboard']">Dashboard</button>
+            <button mat-button (click)="logout()">Cerrar Sesión</button>
             }
         </div>
     </mat-toolbar-row>

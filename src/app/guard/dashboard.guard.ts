@@ -5,12 +5,13 @@ import { inject } from '@angular/core';
 export const dashboardGuard: CanActivateFn = (route, state) => {
   const authService: AuthService = inject(AuthService);
   const router: Router = inject(Router);
+
   let isAuth = authService.isAuthenticated();
 
-  if(!isAuth){
+  if (!isAuth) {
     router.navigate(['login']);
     return false;
   }
-  
+
   return true;
 };

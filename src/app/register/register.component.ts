@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,8 +15,7 @@ import { SnackBarService } from '../service/snack-bar.service';
   selector: 'app-register',
   standalone: true,
   imports: [
-    RouterModule,
-    FormsModule,
+    RouterLink,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -78,12 +77,12 @@ export class RegisterComponent {
     event.preventDefault();
 
     if (this.registerForm.valid) {
-      let name = this.registerForm.value.name as string;
-      let lastNames = this.registerForm.value.lastNames as string;
-      let dni = this.registerForm.value.dni as string;
-      let cuil = this.registerForm.value.cuil as string;
-      let email = this.registerForm.value.email as string;
-      let password = this.registerForm.value.password as string;
+      let name: string = this.registerForm.value.name as string;
+      let lastNames: string = this.registerForm.value.lastNames as string;
+      let dni: string = this.registerForm.value.dni as string;
+      let cuil: string = this.registerForm.value.cuil as string;
+      let email: string = this.registerForm.value.email as string;
+      let password: string = this.registerForm.value.password as string;
 
       let user: User = {
         name: name,
@@ -96,17 +95,17 @@ export class RegisterComponent {
 
       this.authService.register(user).then(success => {
         if (success) {
-          this.snackBarService.openTop('Registro exitoso. ¡Revise su correo!', {duration: 7000, panelClass: ['snack-bar-success']},'Cerrar');
+          this.snackBarService.openTop('Registro exitoso. ¡Revise su correo!', { duration: 7000, panelClass: ['snack-bar-success'] }, 'Cerrar');
           this.router.navigate(['login']);
         } else {
-          this.snackBarService.openTop('Hubo un problema al registrarse', {duration: 7000, panelClass: ['snack-bar-error']},'Cerrar');
+          this.snackBarService.openTop('Hubo un problema al registrarse', { duration: 7000, panelClass: ['snack-bar-error'] }, 'Cerrar');
         }
-      }).catch(err => {
-        this.snackBarService.openTop('Error interno. Por favor, intentelo más tarde', {duration: 7000, panelClass: ['snack-bar-error']},'Cerrar');
-        console.error(err);
+      }).catch(error => {
+        this.snackBarService.openTop('Error interno. Por favor, intentelo más tarde', { duration: 7000, panelClass: ['snack-bar-error'] }, 'Cerrar');
+        console.error(error);
       });
     } else {
-      this.snackBarService.openTop('Registro fallido. Por favor revise los mensajes de error del formulario.', {duration: 7000, panelClass: ['snack-bar-error']},'Cerrar');
+      this.snackBarService.openTop('Registro fallido. Por favor revise los mensajes de error del formulario.', { duration: 7000, panelClass: ['snack-bar-error'] }, 'Cerrar');
     }
   }
 }

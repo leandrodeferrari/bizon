@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
-import { RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { FooterComponent } from "../shared/footer/footer.component";
 
@@ -10,7 +10,7 @@ import { FooterComponent } from "../shared/footer/footer.component";
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss',
     imports: [
-        RouterModule,
+        RouterLink,
         MatButtonModule,
         NavbarComponent,
         FooterComponent

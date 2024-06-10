@@ -10,7 +10,7 @@ export class SnackBarService {
 
   constructor() { }
 
-  openTop(message: string, config: SnackBarConfig, action?: string){
+  openTop(message: string, config: SnackBarConfig, action?: string) {
     this.snackBar.open(message, action, {
       duration: config.duration,
       panelClass: config.panelClass,
