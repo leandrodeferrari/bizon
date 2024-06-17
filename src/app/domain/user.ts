@@ -1,8 +1,14 @@
 export interface User {
-    name: string;
-    lastNames: string;
+    id: number;
+    nombre: string;
+    apellido: string;
     dni: string;
     cuil: string;
     email: string;
-    password: string;
+    contrasenia: string;
+    cvu: string;
+    alias: string;
+    saldo: number;
+    updatedAt: Date;
+    createdAt: Date;
 }

@@ -48,8 +48,10 @@ export class DashboardComponent implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
-        this.name = 'Leandro'; // cambiar
-        this.balance = 1200.00; // cambiar
+        this.name = localStorage.getItem('name') || '';
+        const amountLocalStorage: string = localStorage.getItem('amount') || '';
+        let amount: number = parseFloat(amountLocalStorage);
+        this.balance = amount;
         this.transactions = [
             { description: 'Compra ML', date: new Date(), amount: -15000.00 },
             { description: 'Pago Servicio', date: new Date(), amount: 1200.00 },
@@ -69,6 +71,6 @@ export class DashboardComponent implements OnInit {
     imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
 })
 export class DashboardDialogCvuComponent {
-    public cvu: string = '3723498720372349872'; // cambiar
-    public alias: string = 'leandro.deferrari.bz'; //cambiar
+    public cvu: string = localStorage.getItem('cvu') || '';
+    public alias: string = localStorage.getItem('alias') || '';
 }

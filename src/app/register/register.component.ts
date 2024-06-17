@@ -10,6 +10,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { User } from '../domain/user';
 import { AuthService } from '../service/auth.service';
 import { SnackBarService } from '../service/snack-bar.service';
+import { CreateUser } from '../domain/create-user';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-register',
@@ -29,6 +31,7 @@ import { SnackBarService } from '../service/snack-bar.service';
 })
 export class RegisterComponent {
   private authService: AuthService = inject(AuthService);
+  private userService: UserService = inject(UserService);
   private formBuilder: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
   private snackBarService: SnackBarService = inject(SnackBarService);
@@ -84,7 +87,7 @@ export class RegisterComponent {
       let email: string = this.registerForm.value.email as string;
       let password: string = this.registerForm.value.password as string;
 
-      let user: User = {
+      let createUser: CreateUser = {
         name: name,
         lastNames: lastNames,
         dni: dni,
@@ -93,10 +96,25 @@ export class RegisterComponent {
         password: password
       }
 
-      this.authService.register(user).then(success => {
+      this.authService.register(createUser).then(success => {
         if (success) {
-          this.snackBarService.openTop('Registro exitoso. ¡Revise su correo!', { duration: 7000, panelClass: ['snack-bar-success'] }, 'Cerrar');
-          this.router.navigate(['login']);
+          this.userService.save(createUser).subscribe({
+            next: data => {
+              let user: User = data;
+              localStorage.setItem('user', JSON.stringify(user));
+              localStorage.setItem('cvu', user.cvu);
+              localStorage.setItem('alias', user.alias);
+              localStorage.setItem('name', user.nombre);
+              localStorage.setItem('amount', JSON.stringify(user.saldo));
+
+              this.snackBarService.openTop('Registro exitoso. ¡Revise su correo!', { duration: 7000, panelClass: ['snack-bar-success'] }, 'Cerrar');
+              this.router.navigate(['login']);
+            },
+            error: error => {
+              this.snackBarService.openTop('Hubo un problema interno, vuelva más tarde por favor.', { duration: 7000, panelClass: ['snack-bar-error'] }, 'Cerrar');
+              console.error(error);
+            }
+          });
         } else {
           this.snackBarService.openTop('Hubo un problema al registrarse', { duration: 7000, panelClass: ['snack-bar-error'] }, 'Cerrar');
         }

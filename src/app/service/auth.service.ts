@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Credential } from '../domain/credential';
-import { User } from '../domain/user';
 import { environment } from '../../environments/environment.development';
 import { AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserPool, CognitoUserSession } from 'amazon-cognito-identity-js';
+import { CreateUser } from '../domain/create-user';
 
 @Injectable({
   providedIn: 'root'
@@ -36,8 +36,6 @@ export class AuthService {
 
       cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: result => {
-          let accessToken = result.getAccessToken().getJwtToken();
-          // Api rest
           resolve(true);
         },
         onFailure: err => {
@@ -48,7 +46,7 @@ export class AuthService {
     });
   }
 
-  register(user: User): Promise<boolean> {
+  register(user: CreateUser): Promise<boolean> {
     return new Promise(resolve => {
       let poolData = {
         UserPoolId: environment.userPoolId,
@@ -105,9 +103,6 @@ export class AuthService {
           if (err) {
             resolve(false);
           }
-          let cognitoUser = result?.user;
-          // Api rest
-
           resolve(true);
         }
       );
@@ -123,6 +118,7 @@ export class AuthService {
     let userPool = new CognitoUserPool(poolData);
     let currentUser = userPool.getCurrentUser();
     currentUser?.signOut();
+    localStorage.clear();
   }
 
   isAuthenticated(): boolean {
