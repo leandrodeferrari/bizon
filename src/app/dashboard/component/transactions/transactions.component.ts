@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NavbarDashboardActionComponent } from "../navbar-dashboard-action/navbar-dashboard-action.component";
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { MatTableModule } from '@angular/material/table';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-transactions',
@@ -11,6 +12,7 @@ import { MatTableModule } from '@angular/material/table';
     templateUrl: './transactions.component.html',
     styleUrl: './transactions.component.scss',
     imports: [
+        CommonModule,
         FooterComponent,
         MatIconModule,
         MatButtonModule,

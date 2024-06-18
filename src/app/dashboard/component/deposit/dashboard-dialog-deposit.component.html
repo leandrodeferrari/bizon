@@ -1,5 +1,5 @@
-<h2 mat-dialog-title class="mb-0">Retirar saldo</h2>
-@if (!isWithdrawn) {
+<h2 mat-dialog-title class="mb-0">Agregar saldo</h2>
+@if (!isDeposited) {
 <mat-dialog-content>
   <mat-card class="example-card shadow-sm" appearance="outlined">
     <mat-card-header>
@@ -39,7 +39,7 @@
 }
 @else {
 <mat-dialog-content>
-  ¡Se ha retirado saldo correctamente!
+  ¡Se ha agregado saldo correctamente!
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Cerrar</button>

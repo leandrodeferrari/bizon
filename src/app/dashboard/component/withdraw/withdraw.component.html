@@ -8,27 +8,12 @@
     </div>
 
     <mat-stepper linear #stepper>
-        <mat-step [stepControl]="firstStepFormGroup" [editable]="isEditable">
-            <form [formGroup]="firstStepFormGroup">
-                <ng-template matStepLabel>Tipo</ng-template>
-                <mat-form-field>
-                    <mat-label>Tipo</mat-label>
-                    <mat-select formControlName="type" required>
-                        <mat-option value="Efectivo">Efectivo</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <div>
-                    <button mat-button matStepperNext>Siguiente</button>
-                </div>
-            </form>
-        </mat-step>
-
-        <mat-step [stepControl]="secondStepFormGroup" [editable]="isEditable">
-            <form [formGroup]="secondStepFormGroup">
+        <mat-step [stepControl]="stepFormGroup" [editable]="isEditable">
+            <form [formGroup]="stepFormGroup">
                 <ng-template matStepLabel>Monto</ng-template>
                 <mat-form-field>
                     <mat-label>Monto</mat-label>
-                    <input matInput type="number" formControlName="amount" placeholder="100$ mínimo">
+                    <input matInput type="number" formControlName="amount" placeholder="1000$ mínimo">
                 </mat-form-field>
                 <div>
                     <button mat-button matStepperPrevious>Volver</button>
@@ -39,8 +24,7 @@
 
         <mat-step>
             <ng-template matStepLabel>Hecho</ng-template>
-            <p>Tipo: {{firstStepFormGroup.get('type')?.value}}</p>
-            <p>Monto: {{secondStepFormGroup.get('amount')?.value}}$</p>
+            <p>Monto: {{stepFormGroup.get('amount')?.value | currency:'ARS':'symbol':'1.2-2'}}</p>
             <div>
                 <button mat-button matStepperPrevious>Volver</button>
                 <button mat-button (click)="stepper.reset()">Reiniciar</button>

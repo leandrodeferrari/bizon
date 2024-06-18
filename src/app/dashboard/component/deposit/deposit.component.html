@@ -10,9 +10,9 @@
   <mat-stepper linear #stepper>
     <mat-step [stepControl]="firstStepFormGroup" [editable]="isEditable">
       <form [formGroup]="firstStepFormGroup">
-        <ng-template matStepLabel>Tipo</ng-template>
+        <ng-template matStepLabel>Método de pago</ng-template>
         <mat-form-field>
-          <mat-label>Tipo</mat-label>
+          <mat-label>Método</mat-label>
           <mat-select formControlName="type" required>
             <mat-option value="Efectivo">Efectivo</mat-option>
           </mat-select>
@@ -28,7 +28,7 @@
         <ng-template matStepLabel>Monto</ng-template>
         <mat-form-field>
           <mat-label>Monto</mat-label>
-          <input matInput type="number" formControlName="amount" placeholder="100$ mínimo">
+          <input matInput type="number" formControlName="amount" placeholder="1000$ mínimo">
         </mat-form-field>
         <div>
           <button mat-button matStepperPrevious>Volver</button>
@@ -40,11 +40,11 @@
     <mat-step>
       <ng-template matStepLabel>Hecho</ng-template>
       <p>Tipo de pago: {{firstStepFormGroup.get('type')?.value}}</p>
-      <p>Monto: {{secondStepFormGroup.get('amount')?.value}}$</p>
+      <p>Monto: {{secondStepFormGroup.get('amount')?.value | currency:'ARS':'symbol':'1.2-2'}}</p>
       <div>
         <button mat-button matStepperPrevious>Volver</button>
         <button mat-button (click)="stepper.reset()">Reiniciar</button>
-        <button mat-button (click)="stepper.reset()">Listo</button>
+        <button mat-button (click)="openDialog()">Listo</button>
       </div>
     </mat-step>
   </mat-stepper>

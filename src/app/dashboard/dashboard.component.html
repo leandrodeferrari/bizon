@@ -6,9 +6,9 @@
             <mat-card>
                 <mat-card-content class="d-flex flex-wrap justify-content-around">
                     <button mat-raised-button color="primary" class="text-white" [routerLink]="['/transfer']">Transferir
-                        Dinero</button>
+                        Saldo</button>
                     <button mat-raised-button color="accent" class="text-white" [routerLink]="['/withdraw']">Retirar
-                        Dinero</button>
+                        Saldo</button>
                     <button mat-raised-button color="warn" class="text-white" [routerLink]="['/deposit']">Agregar
                         Saldo</button>
                     <button mat-raised-button style="background-color: #004f4f;" class="text-white"
@@ -29,11 +29,12 @@
                     </mat-card-content>
                 </mat-card>
             </div>
-            
+
             <div class="flex-grow-1">
                 <mat-card class="equal-height">
                     <mat-card-content class="d-flex justify-content-between align-items-center">
-                        <span>Saldo: {{ isBalanceVisible ? (balance | currency) : '*********' }}</span>
+                        <span>Saldo: {{ isBalanceVisible ? (balance | currency:'ARS':'symbol':'1.2-2') : '*********'
+                            }}</span>
                         <button mat-icon-button (click)="toggleBalanceVisibility()">
                             <mat-icon>{{ isBalanceVisible ? 'visibility_off' : 'visibility' }}</mat-icon>
                         </button>
@@ -54,7 +55,12 @@
                         @for (transaction of transactions; track $index) {
                         <mat-list-item>
                             <p mat-line> {{ transaction.description }} Fecha: {{ transaction.date | date }} Monto: {{
-                                transaction.amount | currency }}</p>
+                                transaction.amount | currency:'ARS':'symbol':'1.2-2' }}</p>
+                        </mat-list-item>
+                        }
+                        @empty {
+                        <mat-list-item>
+                            <p mat-line>No hay transacciones</p>
                         </mat-list-item>
                         }
                     </mat-list>
