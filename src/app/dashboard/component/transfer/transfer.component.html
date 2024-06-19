@@ -1,14 +1,51 @@
 <app-navbar-dashboard-action></app-navbar-dashboard-action>
 
-<div class="container d-flex flex-column align-items-center justify-content-center vh-100">
-    <div class="text-center">
-        <mat-icon>construction</mat-icon>
-        <h1 class="mt-3">En construcción</h1>
-        <p class="text-muted">Estamos trabajando duro para terminarlo lo antes posible. ¡Vuelva pronto!</p>
-        <button mat-raised-button color="primary" class="mt-2" [routerLink]="['/home']">
-            <mat-icon>home</mat-icon> Volver al Inicio
-        </button>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1>Transferir saldo</h1>
+        </div>
     </div>
+
+    <mat-stepper linear #stepper>
+        <mat-step [stepControl]="firstStepFormGroup" [editable]="isEditable">
+            <form [formGroup]="firstStepFormGroup">
+                <ng-template matStepLabel>Receptor</ng-template>
+                <mat-form-field>
+                    <mat-label>CVU/Alias/Email</mat-label>
+                    <input type="text" matInput formControlName="receptor">
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperNext>Siguiente</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="secondStepFormGroup" [editable]="isEditable">
+            <form [formGroup]="secondStepFormGroup">
+                <ng-template matStepLabel>Monto</ng-template>
+                <mat-form-field>
+                    <mat-label>Monto</mat-label>
+                    <input matInput type="number" formControlName="amount" placeholder="1000$ mínimo">
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Volver</button>
+                    <button mat-button matStepperNext>Siguiente</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>Hecho</ng-template>
+            <p>Receptor: {{firstStepFormGroup.get('receptor')?.value}}</p>
+            <p>Monto: {{secondStepFormGroup.get('amount')?.value | currency:'ARS':'symbol':'1.2-2'}}</p>
+            <div>
+                <button mat-button matStepperPrevious>Volver</button>
+                <button mat-button (click)="stepper.reset()">Reiniciar</button>
+                <button mat-button (click)="openDialog()">Listo</button>
+            </div>
+        </mat-step>
+    </mat-stepper>
 </div>
 
 <app-footer></app-footer>

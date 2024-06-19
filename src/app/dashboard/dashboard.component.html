@@ -33,7 +33,7 @@
             <div class="flex-grow-1">
                 <mat-card class="equal-height">
                     <mat-card-content class="d-flex justify-content-between align-items-center">
-                        <span>Saldo: {{ isBalanceVisible ? (balance | currency:'ARS':'symbol':'1.2-2') : '*********'
+                        <span>Saldo: {{ isBalanceVisible ? (balance | currency:'ARS':'symbol':'1.2-2') : '********'
                             }}</span>
                         <button mat-icon-button (click)="toggleBalanceVisibility()">
                             <mat-icon>{{ isBalanceVisible ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -54,7 +54,8 @@
                     <mat-list>
                         @for (transaction of transactions; track $index) {
                         <mat-list-item>
-                            <p mat-line> {{ transaction.description }} Fecha: {{ transaction.date | date }} Monto: {{
+                            <p mat-line class="text-center justify-content-center"> {{ transaction.description }} Fecha:
+                                {{ transaction.date | date: 'dd-MM-YYY'}} Monto: {{
                                 transaction.amount | currency:'ARS':'symbol':'1.2-2' }}</p>
                         </mat-list-item>
                         }

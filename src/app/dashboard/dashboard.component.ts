@@ -13,7 +13,7 @@ import {
     MatDialogActions,
     MatDialogClose,
     MatDialogContent,
-    MatDialogTitle,
+    MatDialogTitle
 } from '@angular/material/dialog';
 import { Transaction } from '../domain/transaction';
 
