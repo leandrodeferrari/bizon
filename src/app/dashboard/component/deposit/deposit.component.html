@@ -39,8 +39,8 @@
 
     <mat-step>
       <ng-template matStepLabel>Hecho</ng-template>
-      <p>Tipo de pago: {{firstStepFormGroup.get('type')?.value}}</p>
-      <p>Monto: {{secondStepFormGroup.get('amount')?.value | currency:'ARS':'symbol':'1.2-2'}}</p>
+      <p><strong>Método de pago:</strong> {{firstStepFormGroup.get('type')?.value}}</p>
+      <p><strong>Monto:</strong> {{secondStepFormGroup.get('amount')?.value | currency:'ARS':'symbol':'1.2-2'}}</p>
       <div>
         <button mat-button matStepperPrevious>Volver</button>
         <button mat-button (click)="stepper.reset()">Reiniciar</button>

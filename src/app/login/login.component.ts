@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../service/auth.service';
 import { SnackBarService } from '../service/snack-bar.service';
+import { UserService } from '../service/user.service';
+import { User } from '../domain/user';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +34,7 @@ export class LoginComponent {
   private formBuilder: FormBuilder = inject(FormBuilder);
   private snackBarService: SnackBarService = inject(SnackBarService);
   private router: Router = inject(Router);
+  private userService: UserService = inject(UserService);
   public loginForm: FormGroup;
   public hide: boolean = true;
 
@@ -73,8 +76,23 @@ export class LoginComponent {
 
       this.authService.login(credential).then(success => {
         if (success) {
-          this.snackBarService.openTop('¡Bienvenido!', { duration: 7000, panelClass: ['snack-bar-accent'] }, 'Cerrar');
-          this.router.navigate(['dashboard']);
+          this.userService.login(credential.email, credential.password).subscribe({
+            next: data => {
+              let user: User = data;
+              localStorage.setItem('user', JSON.stringify(user));
+              localStorage.setItem('cvu', user.cvu);
+              localStorage.setItem('alias', user.alias);
+              localStorage.setItem('name', user.nombre);
+              localStorage.setItem('amount', JSON.stringify(user.saldo));
+
+              this.snackBarService.openTop('¡Bienvenido!', { duration: 7000, panelClass: ['snack-bar-accent'] }, 'Cerrar');
+              this.router.navigate(['dashboard']);
+            },
+            error: error => {
+              this.snackBarService.openTop('Hubo un problema interno, vuelva más tarde por favor.', { duration: 7000, panelClass: ['snack-bar-error'] }, 'Cerrar');
+              console.error(error);
+            }
+          });
         } else {
           this.snackBarService.openTop('Inicio de sesión fallida', { duration: 7000, panelClass: ['snack-bar-error'] }, 'Cerrar');
         }

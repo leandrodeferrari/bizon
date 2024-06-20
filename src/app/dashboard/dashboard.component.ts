@@ -16,6 +16,7 @@ import {
     MatDialogTitle
 } from '@angular/material/dialog';
 import { Transaction } from '../domain/transaction';
+import { User } from '../domain/user';
 
 @Component({
     selector: 'app-dashboard',
@@ -38,8 +39,9 @@ export class DashboardComponent implements OnInit {
     public dialog: MatDialog = inject(MatDialog);
     public isBalanceVisible: boolean = true;
     public name?: string;
-    public balance?: number;
+    public balance: number = 0.00;
     public transactions?: Transaction[];
+    public user?: User | undefined;
 
     toggleBalanceVisibility(): void {
         this.isBalanceVisible = !this.isBalanceVisible;
@@ -48,15 +50,14 @@ export class DashboardComponent implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
-        this.name = localStorage.getItem('name') || '';
-        const amountLocalStorage: string = localStorage.getItem('amount') || '';
-        let amount: number = parseFloat(amountLocalStorage);
-        this.balance = amount;
+        this.user = JSON.parse(localStorage.getItem('user') || '');
+        this.balance = this.user?.saldo || 0.00;
+
         this.transactions = [
             { description: 'Compra ML', date: new Date(), amount: -15000.00 },
             { description: 'Pago Servicio', date: new Date(), amount: 1200.00 },
             { description: 'Recarga móvil', date: new Date(), amount: -2000.00 },
-        ]; // cambiar
+        ];
     }
 
     openDialog() {

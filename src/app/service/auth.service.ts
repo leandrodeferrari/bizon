@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Credential } from '../domain/credential';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserPool, CognitoUserSession } from 'amazon-cognito-identity-js';
 import { CreateUser } from '../domain/create-user';
 
