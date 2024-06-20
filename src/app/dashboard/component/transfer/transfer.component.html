@@ -12,8 +12,9 @@
             <form [formGroup]="firstStepFormGroup">
                 <ng-template matStepLabel>Receptor</ng-template>
                 <mat-form-field>
-                    <mat-label>CVU/Alias/Email</mat-label>
+                    <mat-label>CVU/alias/email</mat-label>
                     <input type="text" matInput formControlName="receptor">
+                    <mat-error>El receptor es requerido</mat-error>
                 </mat-form-field>
                 <div>
                     <button mat-button matStepperNext>Siguiente</button>
@@ -27,6 +28,12 @@
                 <mat-form-field>
                     <mat-label>Monto</mat-label>
                     <input matInput type="number" formControlName="amount" placeholder="1000$ mínimo">
+                    @if (secondStepFormGroup.get('amount')?.hasError('required')) {
+                    <mat-error>El monto es requerido</mat-error>
+                    }
+                    @if (secondStepFormGroup.get('amount')?.hasError('min')) {
+                    <mat-error>El monto mínimo es 1.000 ARS</mat-error>
+                    }
                 </mat-form-field>
                 <div>
                     <button mat-button matStepperPrevious>Volver</button>
@@ -37,8 +44,10 @@
 
         <mat-step>
             <ng-template matStepLabel>Hecho</ng-template>
-            <p>Receptor: {{firstStepFormGroup.get('receptor')?.value}}</p>
-            <p>Monto: {{secondStepFormGroup.get('amount')?.value | currency:'ARS':'symbol':'1.2-2'}}</p>
+            <p><strong class="me-2">Receptor:</strong>
+                <mat-chip>{{firstStepFormGroup.get('receptor')?.value}}</mat-chip></p>
+            <p><strong class="me-2">Monto:</strong> <mat-chip>{{secondStepFormGroup.get('amount')?.value |
+                    currency:'ARS':'symbol':'1.2-2'}}</mat-chip></p>
             <div>
                 <button mat-button matStepperPrevious>Volver</button>
                 <button mat-button (click)="stepper.reset()">Reiniciar</button>

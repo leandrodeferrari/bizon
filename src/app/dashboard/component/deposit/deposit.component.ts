@@ -30,7 +30,8 @@ import { MatDividerModule } from '@angular/material/divider';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatChipsModule
   ]
 })
 export class DepositComponent {

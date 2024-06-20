@@ -32,7 +32,8 @@ import { MatChipsModule } from '@angular/material/chips';
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
-        MatSelectModule
+        MatSelectModule,
+        MatChipsModule
     ]
 })
 export class WithdrawComponent {

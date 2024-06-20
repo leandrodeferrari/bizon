@@ -69,7 +69,13 @@ export class DashboardComponent implements OnInit {
     selector: 'dashboard-dialog-cvu',
     templateUrl: './dashboard-dialog-cvu.component.html',
     standalone: true,
-    imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
+    imports: [
+        MatDialogTitle,
+        MatDialogContent,
+        MatDialogActions,
+        MatDialogClose,
+        MatButtonModule
+    ]
 })
 export class DashboardDialogCvuComponent {
     public cvu: string = localStorage.getItem('cvu') || '';

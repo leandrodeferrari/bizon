@@ -13,9 +13,10 @@
         <ng-template matStepLabel>Método de pago</ng-template>
         <mat-form-field>
           <mat-label>Método</mat-label>
-          <mat-select formControlName="type" required>
+          <mat-select formControlName="type">
             <mat-option value="Efectivo">Efectivo</mat-option>
           </mat-select>
+          <mat-error>El método es requerido</mat-error>
         </mat-form-field>
         <div>
           <button mat-button matStepperNext>Siguiente</button>
@@ -29,6 +30,12 @@
         <mat-form-field>
           <mat-label>Monto</mat-label>
           <input matInput type="number" formControlName="amount" placeholder="1000$ mínimo">
+          @if (secondStepFormGroup.get('amount')?.hasError('required')) {
+          <mat-error>El monto es requerido</mat-error>
+          }
+          @if (secondStepFormGroup.get('amount')?.hasError('min')) {
+          <mat-error>El monto mínimo es 1.000 ARS</mat-error>
+          }
         </mat-form-field>
         <div>
           <button mat-button matStepperPrevious>Volver</button>
@@ -39,8 +46,10 @@
 
     <mat-step>
       <ng-template matStepLabel>Hecho</ng-template>
-      <p><strong>Método de pago:</strong> {{firstStepFormGroup.get('type')?.value}}</p>
-      <p><strong>Monto:</strong> {{secondStepFormGroup.get('amount')?.value | currency:'ARS':'symbol':'1.2-2'}}</p>
+      <p><strong class="me-2">Método de pago:</strong> <mat-chip>{{firstStepFormGroup.get('type')?.value}}</mat-chip>
+      </p>
+      <p><strong class="me-2">Monto:</strong> <mat-chip>{{secondStepFormGroup.get('amount')?.value |
+          currency:'ARS':'symbol':'1.2-2'}}</mat-chip></p>
       <div>
         <button mat-button matStepperPrevious>Volver</button>
         <button mat-button (click)="stepper.reset()">Reiniciar</button>
