@@ -20,6 +20,9 @@
                     @if (stepFormGroup.get('amount')?.hasError('min')) {
                     <mat-error>El monto mínimo es 1.000 ARS</mat-error>
                     }
+                    @if (stepFormGroup.get('amount')?.hasError('max')) {
+                    <mat-error>Su saldo es {{maxAmount | currency:'ARS':'symbol':'1.2-2'}}</mat-error>
+                    }
                 </mat-form-field>
                 <div>
                     <button mat-button matStepperNext>Siguiente</button>

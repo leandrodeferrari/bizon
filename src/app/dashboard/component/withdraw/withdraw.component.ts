@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Inject, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,6 +14,9 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
+import { UserService } from '../../../service/user.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { User } from '../../../domain/user';
 
 @Component({
     selector: 'app-withdraw',
@@ -37,20 +40,45 @@ import { MatChipsModule } from '@angular/material/chips';
     ]
 })
 export class WithdrawComponent {
+    private userService: UserService = inject(UserService);
     private formBuilder: FormBuilder = inject(FormBuilder);
     public dialog: MatDialog = inject(MatDialog);
     public stepFormGroup: FormGroup;
     public isEditable = true;
     public types = ['Efectivo', 'Tarjeta'];
+    public maxAmount?: number;
 
     constructor() {
+        let email = localStorage.getItem('email') || '';
+
         this.stepFormGroup = this.formBuilder.group({
             amount: [1000, [Validators.required, Validators.min(1000)]],
+        });
+
+        this.userService.findByEmail(email).subscribe({
+            next: response => {
+                let currentUser: User = response;
+                this.maxAmount = currentUser.saldo;
+
+                this.stepFormGroup = this.formBuilder.group({
+                    amount: [1000, [Validators.required, Validators.min(1000), Validators.max(this.maxAmount)]],
+                });
+            },
+            error: error => {
+                console.log(error);
+            }
         });
     }
 
     openDialog() {
-        this.dialog.open(DashboardDialogWithdraw);
+        let amount: number = this.stepFormGroup.get('amount')?.value as number;
+        let email: string = localStorage.getItem('email') || '';
+        this.dialog.open(DashboardDialogWithdraw, {
+            data: {
+                email: email,
+                amount: amount
+            }
+        });
     }
 }
 
@@ -71,22 +99,37 @@ export class WithdrawComponent {
     ],
 })
 export class DashboardDialogWithdraw implements OnInit {
+    private userService: UserService = inject(UserService);
     private router: Router = inject(Router);
     public code1: string;
     public code2: string;
     public isWithdrawn: boolean = false;
+    public email: string = '';
+    public amount: number = 0.00;
+    public hasError: boolean = false;
 
-    constructor() {
+    constructor(@Inject(MAT_DIALOG_DATA) public data: { email: string, amount: number }) {
         this.code1 = this.generateRandomCode();
         this.code2 = this.generateRandomCode();
+        this.email = data.email;
+        this.amount = data.amount;
     }
 
     ngOnInit(): void {
-        setTimeout(() => {
-            this.isWithdrawn = true;
-            // TODO: API REST
-            this.router.navigate(['dashboard']);
-        }, 10_000);
+        this.userService.withdraw(this.email, this.amount).subscribe({
+            next: response => {
+                setTimeout(() => {
+                    this.isWithdrawn = true;
+                    this.router.navigate(['dashboard']);
+                }, 5_000);
+            },
+            error: error => {
+                this.hasError = true;
+                this.isWithdrawn = true;
+                this.router.navigate(['dashboard']);
+                console.log(error);
+            }
+        });
     }
 
     generateRandomCode(): string {

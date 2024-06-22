@@ -34,6 +34,9 @@
                     @if (secondStepFormGroup.get('amount')?.hasError('min')) {
                     <mat-error>El monto mínimo es 1.000 ARS</mat-error>
                     }
+                    @if (secondStepFormGroup.get('amount')?.hasError('max')) {
+                    <mat-error>Su saldo es {{maxAmount | currency:'ARS':'symbol':'1.2-2'}}</mat-error>
+                    }
                 </mat-form-field>
                 <div>
                     <button mat-button matStepperPrevious>Volver</button>
@@ -45,7 +48,8 @@
         <mat-step>
             <ng-template matStepLabel>Hecho</ng-template>
             <p><strong class="me-2">Receptor:</strong>
-                <mat-chip>{{firstStepFormGroup.get('receptor')?.value}}</mat-chip></p>
+                <mat-chip>{{firstStepFormGroup.get('receptor')?.value}}</mat-chip>
+            </p>
             <p><strong class="me-2">Monto:</strong> <mat-chip>{{secondStepFormGroup.get('amount')?.value |
                     currency:'ARS':'symbol':'1.2-2'}}</mat-chip></p>
             <div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Inject, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { NavbarDashboardActionComponent } from "../navbar-dashboard-action/navbar-dashboard-action.component";
@@ -15,6 +15,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { UserService } from '../../../service/user.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { User } from '../../../domain/user';
 
 @Component({
     selector: 'app-transfer',
@@ -43,12 +46,14 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     ]
 })
 export class TransferComponent {
+    private userService: UserService = inject(UserService);
     private formBuilder: FormBuilder = inject(FormBuilder);
     public dialog: MatDialog = inject(MatDialog);
     public firstStepFormGroup: FormGroup;
     public secondStepFormGroup: FormGroup;
     public isEditable = true;
     public types = ['Efectivo', 'Tarjeta'];
+    public maxAmount?: number;
 
     constructor() {
         this.firstStepFormGroup = this.formBuilder.group({
@@ -57,10 +62,36 @@ export class TransferComponent {
         this.secondStepFormGroup = this.formBuilder.group({
             amount: [1000, [Validators.required, Validators.min(1000)]],
         });
+
+        let email: string = localStorage.getItem('email') || '';
+
+        this.userService.findByEmail(email).subscribe({
+            next: response => {
+                let currentUser: User = response;
+                this.maxAmount = currentUser.saldo;
+
+                this.secondStepFormGroup = this.formBuilder.group({
+                    amount: [1000, [Validators.required, Validators.min(1000), Validators.max(this.maxAmount)]],
+                });
+            },
+            error: error => {
+                console.log(error);
+            }
+        });
     }
 
     openDialog() {
-        this.dialog.open(DashboardDialogTransfer);
+        let receptor: string = this.firstStepFormGroup.get('receptor')?.value as string;
+        let amount: number = this.secondStepFormGroup.get('amount')?.value as number;
+        let emisor: string = localStorage.getItem('email') || '';
+
+        this.dialog.open(DashboardDialogTransfer, {
+            data: {
+                emisor: emisor,
+                receptor: receptor,
+                monto: amount
+            }
+        });
     }
 }
 
@@ -82,16 +113,50 @@ export class TransferComponent {
     ]
 })
 export class DashboardDialogTransfer implements OnInit {
+    private userService: UserService = inject(UserService);
     private router: Router = inject(Router);
     public isTransfered: boolean = false;
+    public emisor: string = '';
+    public receptor: string = '';
+    public monto: number = 0.00;
+    public hasError: boolean = false;
+    public messageError: string = '';
 
-    constructor() { }
+    constructor(@Inject(MAT_DIALOG_DATA) public data: { emisor: string, receptor: string, monto: number }) {
+        this.emisor = data.emisor;
+        this.receptor = data.receptor;
+        this.monto = data.monto;
+    }
 
     ngOnInit(): void {
-        setTimeout(() => {
-            this.isTransfered = true;
-            // TODO: API REST
-            this.router.navigate(['dashboard']);
-        }, 10_000);
+        this.userService.findByEmail(this.receptor).subscribe({
+            next: response => {
+                if (response) {
+                    this.userService.transfer(this.emisor, this.receptor, this.monto).subscribe({
+                        next: response => {
+                            setTimeout(() => {
+                                this.isTransfered = true;
+                                this.router.navigate(['dashboard']);
+                            }, 5_000);
+                        },
+                        error: error => {
+                            this.messageError = 'Ocurrió un error, vuelva a intentarlo más tarde';
+                            this.hasError = true;
+                            this.isTransfered = true;
+                            console.log(error);
+                            this.router.navigate(['dashboard']);
+                        }
+                    });
+                } else {
+                    this.messageError = `No existe usuario con el email/alias/CVU: ${this.receptor}`;
+                    this.hasError = true;
+                    this.isTransfered = true;
+                    this.router.navigate(['dashboard']);
+                }
+            },
+            error: error => {
+                console.log(error);
+            }
+        });
     }
 }

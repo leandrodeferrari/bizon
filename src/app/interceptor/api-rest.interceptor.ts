@@ -7,7 +7,7 @@ export const apiRestInterceptor: HttpInterceptorFn = (req, next) => {
   let request = req;
 
   const token: string = authService.getToken();
-
+  
   if (token != '') {
     request = req.clone({ headers: req.headers.set('Authorization', `Bearer ${token}`).set('Access-Control-Allow-Origin', '*') });
   } else {

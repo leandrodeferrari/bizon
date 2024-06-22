@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Inject, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NavbarDashboardActionComponent } from "../navbar-dashboard-action/navbar-dashboard-action.component";
@@ -14,6 +14,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { UserService } from '../../../service/user.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-deposit',
@@ -52,7 +54,15 @@ export class DepositComponent {
   }
 
   openDialog() {
-    this.dialog.open(DashboardDialogDeposit);
+    let amount: number = this.secondStepFormGroup.get('amount')?.value as number;
+    let email: string = localStorage.getItem('email') || '';
+
+    this.dialog.open(DashboardDialogDeposit, {
+      data: {
+        email: email,
+        amount: amount
+      }
+    });
   }
 }
 
@@ -73,22 +83,37 @@ export class DepositComponent {
   ],
 })
 export class DashboardDialogDeposit implements OnInit {
+  private userService: UserService = inject(UserService);
   private router: Router = inject(Router);
   public code1: string;
   public code2: string;
   public isDeposited: boolean = false;
+  public email: string = '';
+  public amount: number = 0.00;
+  public hasError: boolean = false;
 
-  constructor() {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { email: string, amount: number }) {
     this.code1 = this.generateRandomCode();
     this.code2 = this.generateRandomCode();
+    this.email = data.email;
+    this.amount = data.amount;
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.isDeposited = true;
-      // TODO: API REST
-      this.router.navigate(['dashboard']);
-    }, 10_000);
+    this.userService.deposit(this.email, this.amount).subscribe({
+      next: response => {
+        setTimeout(() => {
+          this.isDeposited = true;
+          this.router.navigate(['dashboard']);
+        }, 5_000);
+      },
+      error: error => {
+        this.hasError = true;
+        this.isDeposited = true;
+        this.router.navigate(['dashboard']);
+        console.log(error);
+      }
+    });
   }
 
   generateRandomCode(): string {

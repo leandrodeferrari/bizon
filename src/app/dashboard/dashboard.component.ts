@@ -17,6 +17,8 @@ import {
 } from '@angular/material/dialog';
 import { Transaction } from '../domain/transaction';
 import { User } from '../domain/user';
+import { UserService } from '../service/user.service';
+import { TransactionService } from '../service/transaction.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -36,6 +38,8 @@ import { User } from '../domain/user';
     ]
 })
 export class DashboardComponent implements OnInit {
+    private userService: UserService = inject(UserService);
+    private transactionService: TransactionService = inject(TransactionService);
     public dialog: MatDialog = inject(MatDialog);
     public isBalanceVisible: boolean = true;
     public name?: string;
@@ -50,14 +54,32 @@ export class DashboardComponent implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
-        this.user = JSON.parse(localStorage.getItem('user') || '');
-        this.balance = this.user?.saldo || 0.00;
+        let email: string = localStorage.getItem('email') || '';
 
-        this.transactions = [
-            { description: 'Compra ML', date: new Date(), amount: -15000.00 },
-            { description: 'Pago Servicio', date: new Date(), amount: 1200.00 },
-            { description: 'Recarga móvil', date: new Date(), amount: -2000.00 },
-        ];
+        this.userService.findByEmail(email).subscribe({
+            next: response => {
+                this.user = response;
+                this.balance = this.user?.saldo || 0.00;
+            },
+            error: error => {
+                console.log(error);
+            }
+        });
+
+        this.transactionService.findAllByUserId().subscribe({
+            next: response => {
+                this.transactions = response;
+
+                this.transactions.sort((a, b) => {
+                    return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
+                });
+
+                this.transactions = this.transactions.slice(0, 3);
+            },
+            error: error => {
+                console.log(error);
+            }
+        });
     }
 
     openDialog() {

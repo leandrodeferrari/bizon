@@ -39,7 +39,7 @@ export class AuthService {
           resolve(true);
         },
         onFailure: err => {
-          console.error(err);
+          console.log(err);
           resolve(false);
         }
       });
@@ -136,7 +136,7 @@ export class AuthService {
     if (currentUser != null) {
       currentUser.getSession((error: any, session: CognitoUserSession) => {
         if (error) {
-          console.error(JSON.stringify(error));
+          console.log(JSON.stringify(error));
         }
 
         isAuth = session.isValid();

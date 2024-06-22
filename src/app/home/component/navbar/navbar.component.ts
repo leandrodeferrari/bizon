@@ -26,7 +26,8 @@ export class NavbarComponent {
   private snackBarService: SnackBarService = inject(SnackBarService);
 
   isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
+    let token = this.authService.getToken();
+    return token != '' ? true : false;
   }
 
   logout(): void {

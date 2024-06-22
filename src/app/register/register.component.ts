@@ -112,7 +112,7 @@ export class RegisterComponent {
             },
             error: error => {
               this.snackBarService.openTop('Hubo un problema interno, vuelva más tarde por favor.', { duration: 7000, panelClass: ['snack-bar-error'] }, 'Cerrar');
-              console.error(error);
+              console.log(error);
             }
           });
         } else {
@@ -120,7 +120,7 @@ export class RegisterComponent {
         }
       }).catch(error => {
         this.snackBarService.openTop('Error interno. Por favor, intentelo más tarde', { duration: 7000, panelClass: ['snack-bar-error'] }, 'Cerrar');
-        console.error(error);
+        console.log(error);
       });
     } else {
       this.snackBarService.openTop('Registro fallido. Por favor revise los mensajes de error del formulario.', { duration: 7000, panelClass: ['snack-bar-error'] }, 'Cerrar');

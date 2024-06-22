@@ -10,7 +10,7 @@ import { User } from '../domain/user';
 })
 export class UserService {
   private http: HttpClient = inject(HttpClient);
-  private url = `${environment.rootUrl}/usuarios`
+  private url = `${environment.rootUrl}/usuarios`;
 
   constructor() { }
 
@@ -38,5 +38,26 @@ export class UserService {
         return usuario;
       })
     );
+  }
+
+  findByEmail(email: string): Observable<any> {    
+    return this.http.get<any>(`${this.url}/buscar-usuario/${email}`).pipe(
+      map(response => {
+        const usuario = response.busqueda[0];
+        return usuario;
+      })
+    );
+  }
+
+  deposit(usuario: string, saldo: number): Observable<any> {
+    return this.http.put<any>(`${this.url}/sumar-saldo`, { usuario: usuario, saldo: saldo });
+  }
+
+  withdraw(usuario: string, saldo: number): Observable<any> {
+    return this.http.put<any>(`${this.url}/restar-saldo`, { usuario: usuario, saldo: saldo });
+  }
+
+  transfer(emisor: string, receptor: string, monto: number): Observable<any> {
+    return this.http.put<any>(`${this.url}/transferir-saldo`, { emisor: emisor, receptor: receptor, monto: monto });
   }
 }

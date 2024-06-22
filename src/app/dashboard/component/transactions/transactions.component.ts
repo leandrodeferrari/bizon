@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NavbarDashboardActionComponent } from "../navbar-dashboard-action/navbar-dashboard-action.component";
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
+import { TransactionService } from '../../../service/transaction.service';
+import { Transaction } from '../../../domain/transaction';
 
 @Component({
     selector: 'app-transactions',
@@ -21,17 +23,20 @@ import { CommonModule } from '@angular/common';
     ]
 })
 export class TransactionsComponent implements OnInit {
+    private transactionService: TransactionService = inject(TransactionService);
     public displayedColumns?: string[];
-    public transactions: any;
+    public transactions: Transaction[] = [];
 
     ngOnInit(): void {
-        this.transactions = TRANSACTIONS;
-        this.displayedColumns = ['position', 'description', 'date', 'amount'];
+        this.transactionService.findAllByUserId().subscribe({
+            next: response => {
+                this.transactions = response;
+
+                this.transactions.sort((a, b) => {
+                    return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
+                });
+            }
+        });
+        this.displayedColumns = ['description', 'date', 'amount', 'category'];
     }
 }
-
-const TRANSACTIONS = [
-    { position: 1, description: 'Compra ML', date: new Date(), amount: -15000.00 },
-    { position: 2, description: 'Pago Servicio', date: new Date(), amount: 1200.00 },
-    { position: 3, description: 'Recarga móvil', date: new Date(), amount: -2000.00 },
-];

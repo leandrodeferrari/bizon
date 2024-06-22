@@ -84,13 +84,14 @@ export class LoginComponent {
               localStorage.setItem('alias', user.alias);
               localStorage.setItem('name', user.nombre);
               localStorage.setItem('amount', JSON.stringify(user.saldo));
+              localStorage.setItem('email', credential.email);
 
               this.snackBarService.openTop('¡Bienvenido!', { duration: 7000, panelClass: ['snack-bar-accent'] }, 'Cerrar');
               this.router.navigate(['dashboard']);
             },
             error: error => {
               this.snackBarService.openTop('Hubo un problema interno, vuelva más tarde por favor.', { duration: 7000, panelClass: ['snack-bar-error'] }, 'Cerrar');
-              console.error(error);
+              console.log(error);
             }
           });
         } else {
