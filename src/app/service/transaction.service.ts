@@ -14,7 +14,7 @@ export class TransactionService {
   constructor() { }
 
   findAllByUserId(): Observable<any[]> {
-    let currentUser: User = JSON.parse(localStorage.getItem('user') || '');
+    let currentUser: User = JSON.parse(localStorage.getItem('user') ?? '');
     let id = currentUser.id;
 
     return this.http.get<any>(`${this.url}/listar-transacciones/${id}`).pipe(

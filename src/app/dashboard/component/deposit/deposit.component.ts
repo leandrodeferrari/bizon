@@ -12,10 +12,9 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatDialog } from '@angular/material/dialog';
+import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { UserService } from '../../../service/user.service';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-deposit',
@@ -55,7 +54,7 @@ export class DepositComponent {
 
   openDialog() {
     let amount: number = this.secondStepFormGroup.get('amount')?.value as number;
-    let email: string = localStorage.getItem('email') || '';
+    let email: string = localStorage.getItem('email') ?? '';
 
     this.dialog.open(DashboardDialogDeposit, {
       data: {

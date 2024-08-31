@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
     public name?: string;
     public balance: number = 0.00;
     public transactions?: Transaction[];
-    public user?: User | undefined;
+    public user: User | undefined;
 
     toggleBalanceVisibility(): void {
         this.isBalanceVisible = !this.isBalanceVisible;
@@ -54,12 +54,12 @@ export class DashboardComponent implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
-        let email: string = localStorage.getItem('email') || '';
+        let email: string = localStorage.getItem('email') ?? '';
 
         this.userService.findByEmail(email).subscribe({
             next: response => {
                 this.user = response;
-                this.balance = this.user?.saldo || 0.00;
+                this.balance = this.user?.saldo ?? 0.00;
             },
             error: error => {
                 console.log(error);
@@ -100,6 +100,6 @@ export class DashboardComponent implements OnInit {
     ]
 })
 export class DashboardDialogCvuComponent {
-    public cvu: string = localStorage.getItem('cvu') || '';
-    public alias: string = localStorage.getItem('alias') || '';
+    public cvu: string = localStorage.getItem('cvu') ?? '';
+    public alias: string = localStorage.getItem('alias') ?? '';
 }

@@ -150,7 +150,7 @@ export class AuthService {
     for (let index = 0; index < localStorage.length; index++) {
       if (localStorage.key(index)?.endsWith('accessToken') && localStorage.key(index)?.includes(environment.clientId)) {
 
-        let item = localStorage.getItem(localStorage.key(index) || '');
+        let item = localStorage.getItem(localStorage.key(index) ?? '');
 
         if (item != null) {
 

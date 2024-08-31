@@ -9,13 +9,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { UserService } from '../../../service/user.service';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { User } from '../../../domain/user';
 
 @Component({
@@ -49,7 +48,7 @@ export class WithdrawComponent {
     public maxAmount?: number;
 
     constructor() {
-        let email = localStorage.getItem('email') || '';
+        let email = localStorage.getItem('email') ?? '';
 
         this.stepFormGroup = this.formBuilder.group({
             amount: [1000, [Validators.required, Validators.min(1000)]],
@@ -72,7 +71,7 @@ export class WithdrawComponent {
 
     openDialog() {
         let amount: number = this.stepFormGroup.get('amount')?.value as number;
-        let email: string = localStorage.getItem('email') || '';
+        let email: string = localStorage.getItem('email') ?? '';
         this.dialog.open(DashboardDialogWithdraw, {
             data: {
                 email: email,

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { NavbarDashboardActionComponent } from "../navbar-dashboard-action/navbar-dashboard-action.component";
 import { FooterComponent } from '../../../shared/footer/footer.component';
@@ -9,14 +9,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatDialog } from '@angular/material/dialog';
+import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { UserService } from '../../../service/user.service';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { User } from '../../../domain/user';
 
 @Component({
@@ -63,7 +61,7 @@ export class TransferComponent {
             amount: [1000, [Validators.required, Validators.min(1000)]],
         });
 
-        let email: string = localStorage.getItem('email') || '';
+        let email: string = localStorage.getItem('email') ?? '';
 
         this.userService.findByEmail(email).subscribe({
             next: response => {
@@ -83,7 +81,7 @@ export class TransferComponent {
     openDialog() {
         let receptor: string = this.firstStepFormGroup.get('receptor')?.value as string;
         let amount: number = this.secondStepFormGroup.get('amount')?.value as number;
-        let emisor: string = localStorage.getItem('email') || '';
+        let emisor: string = localStorage.getItem('email') ?? '';
 
         this.dialog.open(DashboardDialogTransfer, {
             data: {

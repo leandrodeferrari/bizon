@@ -3,7 +3,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../service/auth.service';
 import { SnackBarService } from '../../../service/snack-bar.service';
 
@@ -27,7 +27,7 @@ export class NavbarComponent {
 
   isAuthenticated(): boolean {
     let token = this.authService.getToken();
-    return token != '' ? true : false;
+    return token != '';
   }
 
   logout(): void {
